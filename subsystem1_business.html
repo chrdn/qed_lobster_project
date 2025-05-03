@@ -71,6 +71,56 @@
             border-radius: 4px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
+        /* Table Styles */
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        table th {
+            background-color: #3498db;
+            color: white;
+            text-align: left;
+            font-weight: 600;
+            padding: 12px 15px;
+        }
+        
+        table td {
+            padding: 10px 15px;
+            border-bottom: 1px solid #e0e0e0;
+            vertical-align: top;
+        }
+        
+        table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        table tr:hover {
+            background-color: #f1f7fd;
+        }
+        
+        table caption {
+            font-style: italic;
+            text-align: left;
+            margin-bottom: 10px;
+            color: #666;
+        }
+        
+        .table-important {
+            border-left: 4px solid #3498db;
+        }
+        
+        .table-highlight {
+            background-color: #e3f2fd !important;
+        }
     </style>
 </head>
 <body>
@@ -92,9 +142,10 @@
         <h2>Subsystem Analysis of Solution</h2>
         <p>The optimized solution effectively balanced profitability and feasibility. The GA chose a strategy that filled the entire available season, prioritized simplicity via wholesale sales, and minimized costs wherever possible. However, the tendency to minimize maintenance and licensing suggests that the realism penalty may need to be strengthened. The results demonstrate that all three revenue streams contribute significantly to profit when well-coordinated, and validate the usefulness of the Genetic Algorithm in exploring high-dimensional tradeoffs. MATLAB was used for all modeling and optimization.</p>
         
+        <!-- [Include all business subsystem content] -->        
         <h2>Objective Function</h2>
         <span class="c28">Maximize:<br> </span><img src="images/image1.png"></p><h3 class="c51 c41" id="h.xvzclhf1wgsv"><span class="c27">Constraints</span></h3><h3 class="c51 c41" id="h.x3dm1nwb92ln"><img src="images/image2.png"><span class="c28">&nbsp;(boat cost budget)<br> </span><img src="images/image3.png"><span class="c28">&nbsp;(minimum licensing cost)<br> </span><img src="images/image4.png"><span class="c6">&nbsp;(max rental days allowed)</span></h3><ul class="c17 lst-kix_nriabh768jt2-0 start"><li class="c4 subtitle li-bullet-0" id="h.o3939m9gzz3x-1"><img src="images/image5.png"></li><li class="c4 subtitle li-bullet-0" id="h.o3939m9gzz3x-2"><img src="images/image6.png"></li><li class="c4 subtitle li-bullet-0" id="h.o3939m9gzz3x-3"><img src="images/image7.png"></li><li class="c4 subtitle li-bullet-0" id="h.o3939m9gzz3x-4"><img src="images/image8.png"></li><li class="c4 subtitle li-bullet-0" id="h.o3939m9gzz3x-5"><img src="images/image9.png"></li><li class="c4 subtitle li-bullet-0" id="h.o3939m9gzz3x-6"><img src="images/image10.png"></li><li class="c4 subtitle li-bullet-0" id="h.4mp7ggj9t2am"><img src="images/image11.png"></li></ul><p class="c24"><span class="c27">Component Explanation: </span></p><ul class="c17 lst-kix_4ccjoir06y1n-0 start"><li class="c18 li-bullet-0"><span class="c6">y: Lobsters caught per day (600)<br></span></li><li class="c18 li-bullet-0"><span class="c6">p: Price per pound (30 for wholesale, 45 for DTC)<br></span></li><li class="c18 li-bullet-0"><span class="c6">I_rental: Income per rental day ($1000)<br></span></li><li class="c18 li-bullet-0"><span class="c6">M_week: Weekly maintenance cost ($500)<br></span></li><li class="c18 li-bullet-0"><span class="c6">C_loan: Calculated using the annuity formula:</span></li></ul><ul class="c17 lst-kix_4ccjoir06y1n-1 start"><li class="c23 li-bullet-0"><span class="c6">C_loan = x&#8326; &middot; [ r(1 + r)^x&#8323; / ((1 + r)^x&#8323; &minus; 1) ] &middot; x&#8323;, with r = 0.08</span></li></ul><ul class="c17 lst-kix_pqr1stbvczd0-0 start"><li class="c18 li-bullet-0"><span class="c6">C_labor: Only active when DTC sales are chosen:</span></li></ul><ul class="c17 lst-kix_pqr1stbvczd0-1 start"><li class="c23 li-bullet-0"><span class="c6">C_labor = 5 &middot; y &middot; 6 &middot; weeks_active<br> &nbsp; where weeks_active = 8(x&#8321; + x&#8324;)</span></li></ul><p class="c38"><span class="c27">Variable Table</span></p><table class="c50"><tr class="c8"><td class="c42" colspan="1" rowspan="1"><p class="c1"><span class="c6">Variable</span></p></td><td class="c34" colspan="1" rowspan="1"><p class="c1"><span class="c6">Description</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">Lower Bound</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">Upper Bound</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">Type</span></p></td></tr><tr class="c8"><td class="c42" colspan="1" rowspan="1"><p class="c1"><img src="images/image12.png"></p></td><td class="c34" colspan="1" rowspan="1"><p class="c1"><span class="c6">Lobster fishing (on/off)</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">0</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">1</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">Binary</span></p></td></tr><tr class="c8"><td class="c42" colspan="1" rowspan="1"><p class="c1"><img src="images/image13.png"></p></td><td class="c34" colspan="1" rowspan="1"><p class="c1"><span class="c6">Maintenance interval</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">4000</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">1,000,000</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">Continuous</span></p></td></tr><tr class="c8"><td class="c42" colspan="1" rowspan="1"><p class="c1"><img src="images/image14.png"></p></td><td class="c34" colspan="1" rowspan="1"><p class="c1"><span class="c6">Loan term (years)</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">1</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">20</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">Integer</span></p></td></tr><tr class="c8"><td class="c42" colspan="1" rowspan="1"><p class="c1"><img src="images/image15.png"></p></td><td class="c34" colspan="1" rowspan="1"><p class="c1"><span class="c6">Other fish sales (on/off)</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">0</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">1</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">Binary</span></p></td></tr><tr class="c8"><td class="c42" colspan="1" rowspan="1"><p class="c1"><img src="images/image16.png"></p></td><td class="c34" colspan="1" rowspan="1"><p class="c1"><span class="c6">Price per pound of catch</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">30</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">45</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">Continuous</span></p></td></tr><tr class="c8"><td class="c42" colspan="1" rowspan="1"><p class="c1"><img src="images/image17.png"></p></td><td class="c34" colspan="1" rowspan="1"><p class="c1"><span class="c6">Initial capital (boat cost)</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">200,000</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">2,000,000</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">Continuous</span></p></td></tr><tr class="c8"><td class="c42" colspan="1" rowspan="1"><p class="c1"><img src="images/image18.png"></p></td><td class="c34" colspan="1" rowspan="1"><p class="c1"><span class="c6">License and permit cost</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">17,000</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">55,000</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">Continuous</span></p></td></tr><tr class="c8"><td class="c42" colspan="1" rowspan="1"><p class="c1"><img src="images/image19.png"></p></td><td class="c34" colspan="1" rowspan="1"><p class="c1"><span class="c6">Rental charter days</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">0</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">60</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">Integer</span></p></td></tr><tr class="c8"><td class="c42" colspan="1" rowspan="1"><p class="c1"><img src="images/image20.png"></p></td><td class="c34" colspan="1" rowspan="1"><p class="c1"><span class="c6">Rental active (on/off)</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">0</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">1</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">Binary</span></p></td></tr><tr class="c8"><td class="c42" colspan="1" rowspan="1"><p class="c1"><img src="images/image21.png"></p></td><td class="c34" colspan="1" rowspan="1"><p class="c1"><span class="c6">Sales strategy: 0 = Wholesale, 1 = DTC</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">0</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">1</span></p></td><td class="c19" colspan="1" rowspan="1"><p class="c1"><span class="c6">Binary</span></p></td></tr></table><p class="c37 c38"><span class="c6"></span></p><p class="c24 c37"><span class="c12"></span></p><p class="c55 c41 c37 subtitle" id="h.o3939m9gzz3x-7"><span class="c14"></span></p><h1 class="c41 c55" id="h.kcjcwgkglset">
-        <!-- [Include all business subsystem content] -->
+
     </div>
 
     <div class="nav-container">
