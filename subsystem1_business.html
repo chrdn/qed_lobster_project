@@ -1,28 +1,128 @@
 <html>
 <head>
-<meta content="text/html; charset=UTF-8" http-equiv="content-type">
-<style type="text/css">
-/* [PASTE ALL CSS STYLES FROM ORIGINAL FILE HERE] */
-</style>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <title>Business Model | Lobster Fishing Optimization</title>
+    <style type="text/css">
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 2px solid #3498db;
+            margin-bottom: 40px;
+        }
+        .title {
+            font-size: 36px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 40px 0;
+        }
+        .nav-card {
+            width: 250px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+        .nav-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        .nav-card a {
+            display: block;
+            padding: 25px;
+            text-decoration: none;
+            color: inherit;
+        }
+        .nav-card h2 {
+            color: #3498db;
+            margin-top: 0;
+            font-size: 20px;
+        }
+        .diagram {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .diagram img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+    </style>
 </head>
-<body class="c41 c59 doc-content">
-  <p class="c43"><span class="c30 c61">Lobster Fishing Optimization</span></p>
-  <p class="c24 c37"><span class="c7"></span></p>
-  <p class="c24"><span class="c7">Table of contents</span></p>
-  <ul class="c17 lst-kix_9uio28we7m26-0 start">
-    <li class="c20 li-bullet-0"><span class="c10"><a class="c39" href="system_introduction.html">System Introduction</a></span></li>
-    <li class="c20 li-bullet-0"><span class="c10"><a class="c39" href="subsystem1_business.html">Subsystem 1: Business</a></span></li>
-    <li class="c20 li-bullet-0"><span class="c10"><a class="c39" href="subsystem2_boat_selection.html">Subsystem 2: Boat Selection</a></span></li>
-    <li class="c20 li-bullet-0"><span class="c10"><a class="c39" href="subsystem3_fishing_strategy.html">Subsystem 3: Fishing Strategy</a></span></li>
-    <li class="c20 li-bullet-0"><span class="c10"><a class="c39" href="system_integration.html">System Integration</a></span></li>
-  </ul>
-  
-  <h1 class="c31" id="h.4abua68iw6wa"><span class="c11">Subsystem 1: Business</span></h1>
-  <p class="c24"><span class="c27">Subsystem Description:</span></p>
-  <p class="c24"><span class="c12">The Business Subsystem models the financial viability of a commercial fishing operation. It explores tradeoffs between revenue streams (lobster sales, other fish sales, and off-season charter rental) and costs (boat purchase, maintenance, licensing, labor, and loan structure). We chose this subsystem to evaluate how financing, sales strategy, and asset utilization affect long-term profit, helping inform decisions at the business strategy level. A key focus was whether to prioritize wholesale or direct-to-customer sales, and how to allocate limited fishing and rental time to maximize profitability.</span></p>
-  
-  <!-- [CONTINUE WITH REST OF BUSINESS SUBSYSTEM CONTENT] -->
-  <!-- Include all the Business subsystem content from the original file -->
-  
+<body>
+    <div class="header">
+        <h1 class="title">Business Model</h1>
+        <p class="subtitle">Financial analysis and revenue optimization</p>
+    </div>
+
+    <div class="content">
+        <h2>Subsystem Description</h2>
+        <p>The Business Subsystem models the financial viability of a commercial fishing operation. It explores tradeoffs between revenue streams (lobster sales, other fish sales, and off-season charter rental) and costs (boat purchase, maintenance, licensing, labor, and loan structure).</p>
+        
+        <h2>Subsystem Modeling</h2>
+        <p>We developed a detailed mathematical model that simulates the business operation over a season. The design variables include revenue stream toggles, maintenance interval, loan term, capital cost, licensing cost, rental usage, and sales strategy (wholesale vs. direct).</p>
+        
+        <h2>Subsystem Optimization</h2>
+        <p>We used MATLAB's Genetic Algorithm to optimize our business model. The GA evaluated 10 variables, including 5 binary/integer decisions. It was configured with a population size of 500 and a max of 300 generations.</p>
+        
+        <!-- [Include all business subsystem content] -->
+    </div>
+
+    <div class="nav-container">
+        <div class="nav-card">
+            <a href="index.html">
+                <h2>Home</h2>
+                <p>Return to landing page</p>
+            </a>
+        </div>
+        <div class="nav-card">
+            <a href="system_introduction.html">
+                <h2>System Introduction</h2>
+                <p>Learn about our overall approach and system architecture</p>
+            </a>
+        </div>
+        <div class="nav-card">
+            <a href="subsystem2_boat_selection.html">
+                <h2>Boat Selection</h2>
+                <p>Vessel specifications and performance</p>
+            </a>
+        </div>
+        <div class="nav-card">
+            <a href="subsystem3_fishing_strategy.html">
+                <h2>Fishing Strategy</h2>
+                <p>Operational tactics and crew management</p>
+            </a>
+        </div>
+        <div class="nav-card">
+            <a href="system_integration.html">
+                <h2>System Integration</h2>
+                <p>How all components work together</p>
+            </a>
+        </div>
+    </div>
 </body>
 </html>
