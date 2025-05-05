@@ -1,100 +1,119 @@
-function neg_profit = FishingObjective(x, LL, CL, SL, gph, dist_type)
-    % x = [lobster_hourly, cod_hourly, shellfish_hourly]
-    % LL = 800;
-    % CL = 20;
-    % SL = 2000;
-    % gph = 10;
-    % dist_type = 0;
-    lobster_lim = LL;
-    cod_lim = CL;
-    scallop_lim = SL;
-    % constants
-    trap_yield = lobster_lim / 3; %1/3 of the total traps 
-    weight_lobster = 1.5; %Average lobster weight Lbs
-    cod_weight = 18; %Average cod weight in Lbs
-    cod_catch = cod_lim; %Typical daily yield per crew member
-    scallop_yield = scallop_lim; % #Lbs
+function [neg_profit, total_revenue, net_profit_fish] = FishingObjective(x)
+    % x = [crew_cut_lobster, crew_cut_cod, crew_cut_scallop]
 
-    fuel_gallons = gph; % Fuel consumption in gallons/per/hour
-    gas_cost = 5; % Dollars per gallon of diesel
-    fuel_cost = fuel_gallons * gas_cost; % fuel cost per hour
-
-    crew_number = 3; % Number of crew members
-    lobster_hours = 13; % Hours spent fishing for lobster
-    cod_hours = 10; % Hours spent fishing for cod
-    scallop_hours = 8; % Hours spent fishing for scallops
-
-    hourly_lobster = 26; % Percentage of daily profit crew receives
-    hourly_cod = 20;
-    hourly_scallop = 26;
-
-    ccl = x(1); % Percentage of daily profit crew receives
-    ccc = x(2);
-    ccs = x(3);
-
+    % Constants
+    LL = 800; CL = 15; SL = 2000;
+    gph = 10;
+    dist_type = 0;
     days_in_year = 365;
 
-    % distribution type
-    distribution = dist_type; % 0 = direct-to-customer, 1 = wholesale
-
-    % corrected price logic
-    if distribution == 1
-        lobster_price = 30;
-        cod_price = 12;
-        scallop_price = 10;
+    % Prices
+    if dist_type == 1
+        lobster_price = 22; cod_price = 10; scallop_price = 9;
     else
-        lobster_price = 35;
-        cod_price = 20;
-        scallop_price = 15;
+        lobster_price = 38; cod_price = 20; scallop_price = 16;
     end
 
-    % fishing seasons
-    lobster_season = [127, 273];
-    cod_season = [244, 304];
-    scallop_season = [152, 273];
+    % Per-species productivity and profit
+    prod_l = 100 * x(1) * log(1.3);
+    yield_l = prod_l * 1.5 * (LL / 3);
+    revenue_l = yield_l * lobster_price;
+    labor_l = revenue_l * x(1);
+    fuel_l = gph * 10 * 4 * 6 * 21;
+    profit_l = revenue_l - labor_l - fuel_l;
 
+    prod_c = 100 * x(2) * log(1.25);
+    yield_c = prod_c * 20 * 18;
+    revenue_c = yield_c * cod_price;
+    labor_c = revenue_c * x(2);
+    fuel_c = gph * 10 * 4 * 6 * 9;
+    profit_c = revenue_c - labor_c - fuel_c;
 
-    % daily profits
-    pay_lobster = crew_number * lobster_hours * hourly_lobster; % Cost of labor for lobster fishing
-    prod_lobster = (100*ccl)*log(3); % Productivity which is dependent on pay
-    lobster_yield = trap_yield * weight_lobster * prod_lobster; %lbs
-    lobster_revenue = lobster_yield * lobster_price; 
-    lobster_cost = fuel_cost*lobster_hours + pay_lobster;
-    crew_cut_lobster = (lobster_revenue - lobster_cost)*crew_number*ccl;
-    lobster_profit = lobster_revenue - lobster_cost - crew_cut_lobster;
-    
-    pay_cod = crew_number * cod_hours * hourly_cod; % Cost of labor for cod fishing
-    prod_cod = (100*ccc)*log(1.25);
-    cod_yield = cod_catch * cod_weight * prod_cod;
-    cod_revenue = cod_yield * cod_price;
-    cod_cost = fuel_cost*cod_hours + pay_cod;
-    crew_cut_cod = (cod_revenue - cod_cost)*crew_number*ccc;
-    cod_profit = cod_revenue - cod_cost - crew_cut_cod;
+    prod_s = 100 * x(3) * log(1.08);
+    yield_s = prod_s * SL;
+    revenue_s = yield_s * scallop_price;
+    labor_s = revenue_s * x(3);
+    fuel_s = gph * 10 * 4 * 6 * 18;
+    profit_s = revenue_s - labor_s - fuel_s;
 
-    pay_scallop = crew_number * scallop_hours * hourly_scallop; % Cost of labor for scallop fishing
-    prod_scallop = (100*ccs)*log(2);
-    scallop_yield = scallop_yield * prod_scallop;
-    scallop_revenue = scallop_yield * scallop_price;
-    scallop_cost = fuel_cost * scallop_hours + pay_scallop + scallop_revenue * ccs;
-    crew_cut_scallop = (scallop_revenue - scallop_cost)*crew_number*ccs;
-    scallop_profit = scallop_revenue - scallop_cost - crew_cut_scallop;
+    % Max allowable days per species
+    max_lobster = 273 - 127 + 1;
+    max_cod     = 304 - 244 + 1;
+    max_scallop = 273 - 152 + 1;
 
-    % annual profit calculation
+    lobster_days_used = 0;
+    cod_days_used = 0;
+    scallop_days_used = 0;
+
     total_profit = 0;
+    daily_profit = zeros(days_in_year, 1);
+
     for i = 1:days_in_year
-        in_lobster = i >= lobster_season(1) && i <= lobster_season(2);
-        in_cod = i >= cod_season(1) && i <= cod_season(2);
-        in_scallop = i >= scallop_season(1) && i <= scallop_season(2);
+        choices = [];
+        profits = [];
 
-        options = [];
-        if in_lobster, options(end+1) = lobster_profit; end
-        if in_cod, options(end+1) = cod_profit; end
-        if in_scallop, options(end+1) = scallop_profit; end
+        % If lobster is in season and available
+        if i >= 127 && i <= 273 && lobster_days_used < max_lobster
+            profits(end+1) = profit_l;
+            choices(end+1) = 1;
+        end
 
-        if ~isempty(options)
-            total_profit = total_profit + max(options);
+        % If cod is in season and available
+        if i >= 244 && i <= 304 && cod_days_used < max_cod
+            profits(end+1) = profit_c;
+            choices(end+1) = 2;
+        end
+
+        % If scallop is in season and available
+        if i >= 152 && i <= 273 && scallop_days_used < max_scallop
+            profits(end+1) = profit_s;
+            choices(end+1) = 3;
+        end
+
+        if ~isempty(profits)
+            [best_profit, idx] = max(profits);
+            chosen = choices(idx);
+            total_profit = total_profit + best_profit;
+            daily_profit(i) = best_profit;
+
+            switch chosen
+                case 1
+                    lobster_days_used = lobster_days_used + 1;
+                case 2
+                    cod_days_used = cod_days_used + 1;
+                case 3
+                    scallop_days_used = scallop_days_used + 1;
+            end
         end
     end
+    total_revenue = revenue_l + revenue_c + revenue_s;
+    net_profit_fish = total_profit;
+    neg_profit = -total_profit;
 
-    neg_profit = -total_profit; % for minimization
+    % Optional plots
+    if nargout == 0
+        subplot(2,1,1);
+        plot_fishing_productivity(x, yield_l, yield_c, yield_s);
+
+        subplot(2,1,2);
+        bar(1:days_in_year, daily_profit, 'FaceColor', [0.3 0.6 0.8]);
+        xlabel('Day of Year');
+        ylabel('Daily Profit ($)');
+        title('Profit Per Day (Best Option Chosen)');
+        grid on;
+    end
+end
+
+function plot_fishing_productivity(x, y_l, y_c, y_s)
+    pay_range = linspace(0.02, 0.2, 500);
+    plot(pay_range*100, 100*log(1.3)*1.5*(800/3)*pay_range, 'r', 'LineWidth', 2); hold on;
+    plot(pay_range*100, 100*log(1.25)*20*18*pay_range, 'g', 'LineWidth', 2);
+    plot(pay_range*100, 100*log(1.08)*2000*pay_range, 'b', 'LineWidth', 2);
+    plot(x(1)*100, y_l, 'ro', 'MarkerSize', 8);
+    plot(x(2)*100, y_c, 'go', 'MarkerSize', 8);
+    plot(x(3)*100, y_s, 'bo', 'MarkerSize', 8);
+    xlabel('Crew Cut (%)'); ylabel('Yield (Lbs)');
+    title('Yield vs. Crew Cut');
+    legend('Lobster', 'Cod', 'Shellfish', 'Location', 'southeast');
+    grid on;
 end

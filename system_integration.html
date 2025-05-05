@@ -71,6 +71,136 @@
             border-radius: 4px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
+        /* Table Styles */
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        table th {
+            background-color: #3498db;
+            color: white;
+            text-align: left;
+            font-weight: 600;
+            padding: 12px 15px;
+        }
+        
+        table td {
+            padding: 10px 15px;
+            border-bottom: 1px solid #e0e0e0;
+            vertical-align: top;
+        }
+        
+        table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        table tr:hover {
+            background-color: #f1f7fd;
+        }
+        
+        table caption {
+            font-style: italic;
+            text-align: left;
+            margin-bottom: 10px;
+            color: #666;
+        }
+        
+        .table-important {
+            border-left: 4px solid #3498db;
+        }
+        
+        .table-highlight {
+            background-color: #e3f2fd !important;
+        }
+        
+        .results-container {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 25px;
+          width: 100%;
+          margin: 30px 0;
+        }
+        
+        .table-wrapper {
+          width: 100%;
+          overflow: hidden;
+          border-radius: 8px;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        
+        .result-table {
+          width: 100%;
+          border-collapse: collapse;
+          table-layout: fixed; /* Critical for alignment */
+        }
+        
+        .results-container {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 25px;
+          width: 100%;
+          margin: 30px 0;
+        }
+        
+        .table-wrapper {
+          width: 100%;
+          overflow: hidden;
+          border-radius: 8px;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        
+        .result-table {
+          width: 100%;
+          border-collapse: collapse;
+          table-layout: fixed; /* Critical for alignment */
+        }
+        
+        .result-table th {
+          background-color: #2c3e50;
+          color: white;
+          padding: 12px 15px;
+          text-align: left;
+          font-size: 16px;
+        }
+        
+        .result-table td {
+          padding: 10px 15px;
+          border-bottom: 1px solid #eee;
+        }
+        
+        /* Column Width Enforcement */
+        .label {
+          width: 60%;
+          font-weight: 500;
+          color: #333;
+        }
+        
+        .value {
+          width: 40%;
+          text-align: right;
+          font-family: 'Courier New', monospace;
+        }
+        
+        /* Special Styling */
+        .financial .value { font-weight: 500; }
+        .revenue .value { color: #27ae60; }
+        .cost .value { color: #e74c3c; }
+        .total td { font-weight: 600; background: #f8f9fa; }
+        .highlight td { background: #e3f2fd !important; font-weight: 700; }
+        
+        /* Zebra Striping */
+        .result-table tbody tr:nth-child(even) {
+          background-color: #f8f9fa;
+        }
     </style>
 </head>
 <body>
@@ -80,16 +210,80 @@
     </div>
 
     <div class="content">
-        <h2>Integrated System Overview</h2>
-        <p>For integration, we used linking variables and coupled variables to connect the subsystems:</p>
+        <h2 class="c24" id="h.ax9ryu4v4t4d"><span class="c19">System Level Optimization</span></h2><p class="c17"><span class="c11">For our system level optimization, we calculated a net profit of $255,000. We ran </span><span class="c11 c31">CombinedObjective</span><span class="c6">&nbsp;through Matlab&rsquo;s genetic algorithm. It was configured with a total population of 500 and a maximum of 300 generations. </span></p><p class="c5"><span class="c6"></span></p><h4 class="c24" id="h.oawwjfp1j7u5"><span class="c19">Final Decision Summary</span></h4><p class="c5"><span class="c6"></span></p>
         
-        <ul>
-            <li><strong>Business ↔ Boat Selection:</strong> Boat cost and maintenance feed into financial calculations</li>
-            <li><strong>Business ↔ Fishing Strategy:</strong> Revenue projections inform operational decisions</li>
-            <li><strong>Boat Selection ↔ Fishing Strategy:</strong> Vessel capabilities determine fishing capacity</li>
-        </ul>
+        <div class="results-container">
+          <!-- Business Strategy -->
+          <div class="table-wrapper">
+            <table class="result-table">
+              <thead>
+                <tr><th colspan="2">Business Strategy</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="label">Lobster fishing</td><td class="value">ACTIVE</td></tr>
+                <tr><td class="label">Cod fishing</td><td class="value">ACTIVE</td></tr>
+                <tr><td class="label">Shellfish fishing</td><td class="value">ACTIVE</td></tr>
+                <tr><td class="label">Boat rental</td><td class="value">INACTIVE</td></tr>
+                <tr><td class="label">Sales Strategy</td><td class="value">Direct-to-customer</td></tr>
+                <tr><td class="label">Lobster License Tier</td><td class="value">High</td></tr>
+              </tbody>
+            </table>
+          </div>
         
-        <p>The optimized solution effectively balances all system components to maximize profitability while maintaining operational feasibility.</p>
+          <!-- Boat Selection -->
+          <div class="table-wrapper">
+            <table class="result-table">
+              <thead>
+                <tr><th colspan="2">Boat Selection</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="label">Hull type</td><td class="value">Downeast</td></tr>
+                <tr><td class="label">Hull Length</td><td class="value">50 ft</td></tr>
+                <tr><td class="label">Engine type</td><td class="value">Diesel</td></tr>
+                <tr><td class="label">Engine Horsepower</td><td class="value">300 hp</td></tr>
+              </tbody>
+            </table>
+          </div>
+        
+          <!-- Fishing Strategy -->
+          <div class="table-wrapper">
+            <table class="result-table">
+              <thead>
+                <tr><th colspan="2">Fishing Strategy</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="label">Lobster days</td><td class="value">147 days/year</td></tr>
+                <tr><td class="label">Cod days</td><td class="value">61 days/year</td></tr>
+                <tr><td class="label">Shellfish days</td><td class="value">122 days/year</td></tr>
+                <tr><td class="label">Crew percentage</td><td class="value">10%</td></tr>
+              </tbody>
+            </table>
+          </div>
+        
+          <!-- Financial Summary -->
+          <div class="table-wrapper financial">
+            <table class="result-table">
+              <thead>
+                <tr><th colspan="2">Financial Summary</th></tr>
+              </thead>
+              <tbody>
+                <tr class="revenue"><td class="label">Lobster revenue</td><td class="value">$638,400</td></tr>
+                <tr class="revenue"><td class="label">Fish Revenue</td><td class="value">$80,600</td></tr>
+                <tr class="revenue"><td class="label">Rental Revenue</td><td class="value">$900</td></tr>
+                <tr class="cost"><td class="label">Maintenance cost</td><td class="value">$5,000</td></tr>
+                <tr class="cost"><td class="label">License cost</td><td class="value">$77,000</td></tr>
+                <tr class="cost"><td class="label">Loan cost</td><td class="value">$162,000</td></tr>
+                <tr class="cost"><td class="label">Labor cost</td><td class="value">$76,800</td></tr>
+                <tr class="total"><td class="label">Total Revenue</td><td class="value">$720,000</td></tr>
+                <tr class="total"><td class="label">Total Costs</td><td class="value">$320,800</td></tr>
+                <tr class="total"><td class="label">Crew Pay (2 × 10%)</td><td class="value">$143,800</td></tr>
+                <tr class="highlight"><td class="label">Net Profit</td><td class="value">$255,400</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <p class="c5"><span class="c6"></span></p><p class="c17"><span class="c6">We found that these values held through multiple results, suggesting that Genetic Algorithm has found a global optimum. </span></p><h2 class="c24" id="h.vmbshc3bu9b0"><span class="c19">System Level Sensitivity Analysis</span></h2><p class="c17"><span class="c6">While performing sensitivity analysis, we found multiple points of sensitivity. </span></p><p class="c5"><span class="c6"></span></p><ul class="c22 lst-kix_o07yiaoze905-0 start"><li class="c17 c20 li-bullet-0"><span class="c6">Lobster license tier and boat size both influence lobster yield</span></li><li class="c17 c20 li-bullet-0"><span class="c6">Crew cut had a great impact on lobster yield and fishing strategy profit. </span></li><li class="c17 c20 li-bullet-0"><span class="c6">Market prices had a great impact on the ratio of fishing days</span></li><li class="c17 c20 li-bullet-0"><span class="c6">Maintenance price going up increased fishing days due to lower downtime. </span></li></ul><p class="c5"><span class="c6"></span></p><p class="c17"><span class="c6">Lobster license and boat size went hand-in-hand in lobster yield. If the captain had the cheapest lobster license, but the biggest boat, they would not be able to use the entire boat. Similarly, if they had the most expensive lobster license, but the smallest boat, they would not be able to fit all the lobsters on the boat. </span></p><p class="c5"><span class="c6"></span></p><p class="c17"><span class="c11">The </span><span class="c18">crew cut</span><span class="c6">&nbsp;variable modeled crew motivation. If the crew cut was too high, then the added lobster yield may not be worth the cost to the fishing strategy profit. If it was too low, the lobster yield would go too low. </span></p><p class="c5"><span class="c6"></span></p><p class="c17"><span class="c6">Market prices had a great impact on the ratio of fishing days. This is not a surprise. </span></p><p class="c5"><span class="c6"></span></p><p class="c17"><span class="c6">The increase in maintenance price allows the boat to run with less downtime, enabling the boat to increase fishing days to meet the added demand for the DTC model and offset labor costs. </span></p><h2 class="c27" id="h.lqliyg3ixqpe"><span class="c14">System Level Solution</span></h2><p class="c16"><span class="c11 c21">To evaluate the profitability and viability of various commercial fishing strategies, we developed and integrated three key subsystems: </span><span class="c2">Business Strategy</span><span class="c11 c21">, </span><span class="c2">Boat Selection</span><span class="c11 c21">, and </span><span class="c2">Fishing Strategy</span><span class="c11 c21">. Each subsystem models a critical aspect of the overall operation and is connected within a unified optimization framework. Integration was implemented through a master objective function, </span><span class="c2">CombinedObjective</span><span class="c8">, which takes a full decision vector as input and coordinates data flow between subsystems. </span></p><p class="c16"><span class="c11 c21">The </span><span class="c2">Boat Selection </span><span class="c8">subsystem models financial elements such as loan payments, licensing, maintenance schedules, labor costs, and revenues from product sales and optional boat rentals. This subsystem was enhanced to return detailed cost and revenue breakdowns for reporting and diagnostics, helping ensure the realism of financial assumptions.</span></p><p class="c16"><span class="c11 c21">Simultaneously, the </span><span class="c2">Business Strategy </span><span class="c8">subsystem models financial elements such as loan payments, licensing, maintenance schedules, labor costs, and revenues from product sales and optional boat rentals. This subsystem was enhanced to return detailed cost and revenue breakdowns for reporting and diagnostics, helping ensure the realism of financial assumptions.</span></p><p class="c16"><span class="c11 c21">The master </span><span class="c2">CombinedObjective </span><span class="c8">function integrates the three subsystems by:</span></p><ol class="c22 lst-kix_ducjwb5zdpxz-0 start" start="1"><li class="c16 c20 li-bullet-0"><span class="c8">Passing boat characteristics to determine fuel costs and lobster pot limits<br></span></li><li class="c16 c20 li-bullet-0"><span class="c8">Feeding those outputs into the Fishing subsystem to evaluate profit based on seasonal availability and effort allocation</span></li><li class="c16 c20 li-bullet-0"><span class="c8">Evaluating financial feasibility through the Business subsystem, incorporating revenue from catches and rentals, as well as total operational costs</span></li><li class="c16 c20 li-bullet-0"><span class="c8">Aggregating these elements into a single scalar objective (net profit), which is then minimized using MATLAB&#39;s Genetic Algorithm</span></li></ol><p class="c29"><span class="c8">By using a modular structure with clear data dependencies, we ensured each subsystem could be developed, tested, and refined independently while still contributing to an accurate system-level analysis. This integration enables holistic optimization over a complex, multi-variable decision space, ultimately guiding the selection of the most profitable fishing operation strategy.</span></p><h4 class="c12" id="h.tdc9zsv3uli9"><span class="c14"></span></h4><h2 class="c24" id="h.kaspyf43hrwg"><span class="c19">Subsystem to System level Comparison of Solution</span></h2><h4 class="c27" id="h.shiyxac6bj0i"><span>Business Subsystem </span></h4><table class="c13"><tr class="c3"><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c7"><h4>Subsystem level Solution</h4></span></p></td><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c7"><h4>System level Solution</h4></span></p></td></tr><tr class="c3"><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c6">Maintenance cost: lower bound (lb) value</span></p></td><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c6">Maintenance cost: $5000 (lb = 4000)</span></p></td></tr><tr class="c3"><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c6">Loan cost: lower bound (lb) value</span></p></td><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c6">Loan cost: $162,000 (lb = 150,000)</span></p></td></tr><tr class="c3"><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c6">Sale strategy: wholesale</span></p></td><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c6">Sale strategy: Direct-to-Customer (DTC)</span></p></td></tr><tr class="c3"><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c6">Boat rental: 60 days (maximum)</span></p></td><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c6">Boat rental: INACTIVE</span></p></td></tr></table><p class="c25 c30"><span class="c8"></span></p><p class="c25"><span class="c11">The system-level optimization reveals critical nonlinearities that subsystem-level analysis overlooked. While subsystem optimization pushed maintenance costs and loan terms to their lower bounds (4,000 and 150,000 respectively), the integrated solution converged to more realistic values (5,000 for maintenance, and 162,000 for loans). This 25% increase in maintenance spending might correlate to a reduction in unexpected downtime (further explored below). The shift from wholesale to DTC&mdash;despite its higher labor costs&mdash;reflects the system&#39;s recognition of price premiums outweighing operational complexities when evaluated holistically. Most strikingly, we can see a complete elimination of the boat rental revenue. </span></p><h4 class="c27" id="h.1pqv4tln3wf"><span>Boat selection Subsystem</span></h4><p class="c17"><span class="c6">The minimal variation in boat specifications confirms this subsystem&rsquo;s parameters were pretty close to optimal, even in isolation. </span></p><h4 class="c27" id="h.177hwq27rag8"><span>Fishing Strategy subsystem</span></h4><table class="c13"><tr class="c3"><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c7"><h4>Subsystem level Solution</h4></span></p></td><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c7"><h4>System level Solution</h4></span></p></td></tr><tr class="c3"><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c6">Lobster days: 38 days/year</span></p></td><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c6">Lobster days: 147 days/year</span></p></td></tr><tr class="c3"><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c6">Cod days: 38 days/year</span></p></td><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c6">Cod days: 61 days/year</span></p></td></tr><tr class="c3"><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c6">Shellfish days: 32 days/year</span></p></td><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c6">Shellfish days: 122 days/year</span></p></td></tr></table><p class="c5"><span class="c6"></span></p><p class="c17"><span class="c6">The dramatic activity increases (3-4x more fishing days) stem from three system-level effects 1) changes in maintenance costs and scheduling, 2) adoption of the DTC model, and 3) eliminating rentals freed up the boat to be used for fishing. </span></p><p class="c5"><span class="c6"></span></p><p class="c17"><span class="c11">The most important conclusions we can draw from these differences are that 1) boat rentals appeared profitable in isolation but created systematic inefficiencies, 2) Direct-to-customer may net more profit, despite the additional labor costs, 3) Optimal loan utilizations can buy equipment that have higher ROI, and 4) Increased maintenance costs can decrease downtime, which increases fishing days. </span></p>
     </div>
 
     <div class="nav-container">

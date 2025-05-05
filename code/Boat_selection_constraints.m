@@ -1,80 +1,62 @@
-function [c,ceq] = Boat_selection_constraints(design_variables)
-%UNTITLED2 Summary of this function goes here
-%   Constraints
-Ht = design_variables(1); 
-Hl = design_variables(2);
-Et = design_variables([3,4]); % [diesel/gas, horsepower]
+function [c, ceq] = Boat_selection_constraints(design_variables)
+    % Updated constraints for Boat Selection subsystem with cost realism
 
+    % Inputs
+    Ht = design_variables(1);       % Hull Type: 1=Planar, 2=Lobster, 3=Downeast
+    Hl = design_variables(2);       % Hull Length (ft)
+    Et = design_variables([3, 4]);  % Engine: [Type (0=Diesel, 1=Gas), Horsepower]
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%   Input/outputs
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-estimated_boat_cost = 1800008.83701111;
-maintenance_cost = 1.8019e+05;
-days_at_sea = 4 * 26; % days per week * weeks per season
+    % Constants
+    days_at_sea = 6 * 21;                     % Active fishing days
+    lobsters_per_mile = 10;                   % Traps per mile
+    lobsters_per_trap = 1.5;                  % Catch per trap
+    lobster_catch_threshold = 30000;          % Slightly lower threshold
+    maintenance_cost_limit = 150000;          % Reduced from 180k
+    boat_cost_limit = 1.5e6;                  % Reduced from 1.8M
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%   Parameters
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-lobster_catch_threshold = 58000;
-lobsters_per_mile = 10; % max 450 traps per day; offshore is about 45 miles
-% expected_mpg = 4 for a 300 HP, 25'
+    % Estimate mpg
+    expected_mpg_HP = -2/300 * (Et(2) - 300) + 4;
+    expected_mpg_HL = -2/35 * (Hl - 25) + 4;
+    expected_mpg = mean([expected_mpg_HP, expected_mpg_HL]);
 
-expected_mpg_HP = -2/300*(Et(2)-300)+4; % scales by horsepower
-expected_mpg_HL = -2/35*(Hl-25)+4; % scales by hull length
+    % Fuel adjustments
+    if Et(1) == 1  % Gasoline
+        engine_cost = 9000/300 * (Et(2) - 300) + 1000;
+        expected_gph = (0.5 * Et(2)) / 6.1;
+    else           % Diesel
+        engine_cost = 35000/300 * (Et(2) - 300) + 15000;
+        expected_gph = (0.4 * Et(2)) / 7.2;
+        expected_mpg = expected_mpg * 1.5;
+    end
 
-expected_mpg = mean([expected_mpg_HP,expected_mpg_HL]);
+    % Boat cost estimate (scales with hull length)
+    base_price = 125000;  % 30ft base
+    boat_cost = (1e6 - base_price) / 20 * (Hl - 30) + base_price;
 
-max_speed_length_ratio = 1.34;
+    % Range (limits based on hull and length)
+    range_length = Hl * 2 - 50;
+    range_type = (Ht + 1) * 10 + 10;
+    range = min(range_length, range_type);
 
+    % Estimated catch
+    traps_set = lobsters_per_mile * range;
+    catch_per_day = traps_set * lobsters_per_trap;
+    lobster_catch = catch_per_day * days_at_sea;
 
+    % Weight & horsepower requirements
+    b = 1.24;
+    A = (50000 - 10000) / b^20;
+    dry_weight = A * b^(Hl - 30) + 10000;
+    total_weight = dry_weight + 10000;  % Equipment
+    S_L = 1.34;
+    lb_per_hp = (10.665 / S_L)^3;
+    hp_required = total_weight / lb_per_hp * 3;  % FOS = 3
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%   Constraints
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Constraints
+    c(1) = engine_cost + boat_cost - boat_cost_limit;              % Boat + engine ≤ limit
+    c(2) = sqrt(days_at_sea * (Ht / 10) * Hl * (1 + Et(1)) * Et(2)) * 5 - maintenance_cost_limit;
+    c(3) = hp_required - Et(2);                                    % Must meet HP requirement
+    c(4) = lobster_catch_threshold - lobster_catch;                % Must meet lobster threshold
 
-if Et(1)==1 % gasoline
-    engine = 9000/300*(Et(2)-300)+1000; % scales with horsepower
-    price_per_gallon = 7.5; 
-    upfront = 9000/300*(Et(2)-300)+1000;
-else % diesel
-    engine = 35000/300*(Et(2)-300)+15000;
-    price_per_gallon = 3.55;
-    expected_mpg = expected_mpg * 1.5; % 50% more fuel efficient?
-    upfront = 35000/300*(Et(2)-300)+15000;
+    ceq = [];
 end
-
-
-% range of mile options: 10, 30, 50
-% in shore, off shore, super off shore
-base_distance_length = Hl*2-50; % in miles, (30,40,50)
-base_distance_type = (Ht+2)*10*2-50; % planar hull, lobster boat, downeast hull (1,2,3)
-range = min(base_distance_length,base_distance_type);
-lobsters_caught_per_day = lobsters_per_mile * range;
-lobster_catch = days_at_sea * lobsters_caught_per_day*3/4+21000; % range of lobster catch: 28800,44400,60000
-
-boat = (1e6-1.25e5)/(20)*(Hl-30)+1.25e5;
-
-b = 1.24;
-A = (50000-10000)/b^(20);
-dry_weight = A*b^(Hl-30)+10000; % 50' is 50000 lb, 30' is 10000 lb, 40' is 14000 lb
-equipment_weight = 10000;
-weight = dry_weight + equipment_weight;
-max_hull_speed = max_speed_length_ratio * sqrt(Hl); 
-lb_per_hp = (10.665/max_speed_length_ratio)^3;
-hp_required = weight / lb_per_hp * 3; % FOS of 3
-
-
-c(1) = engine + boat - estimated_boat_cost;
-c(2) = sqrt(days_at_sea * (Ht/10) * Hl * (1+Et(1)) * Et(2))*5 - maintenance_cost; % gas engine requires more frequent repairs
-% c(3) = 300/20*(Hl-30)+300-Et(2); % horsepower must be big enough for the hull length
-c(3) = hp_required - Et(2); % updated horsepower - hull length relationship
-c(4) = lobster_catch_threshold-lobster_catch; 
-ceq = [];
-end
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%
-% sources
-%%%%%%%%%%%%%%%%%%%%%%%%
-% - https://www.thehulltruth.com/boating-forum/503825-confused-about-hp-fishing-boat.html

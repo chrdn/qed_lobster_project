@@ -71,6 +71,56 @@
             border-radius: 4px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
+        /* Table Styles */
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        table th {
+            background-color: #3498db;
+            color: white;
+            text-align: left;
+            font-weight: 600;
+            padding: 12px 15px;
+        }
+        
+        table td {
+            padding: 10px 15px;
+            border-bottom: 1px solid #e0e0e0;
+            vertical-align: top;
+        }
+        
+        table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        table tr:hover {
+            background-color: #f1f7fd;
+        }
+        
+        table caption {
+            font-style: italic;
+            text-align: left;
+            margin-bottom: 10px;
+            color: #666;
+        }
+        
+        .table-important {
+            border-left: 4px solid #3498db;
+        }
+        
+        .table-highlight {
+            background-color: #e3f2fd !important;
+        }
     </style>
 </head>
 <body>
@@ -80,13 +130,8 @@
     </div>
 
     <div class="content">
-        <h2>Subsystem Description</h2>
-        <p>The Fishing strategy Subsystem models the tradeoffs between fishing for different species. This subsystem captures real-world decision-making by incorporating license costs, current market prices, and realistic payment methods.</p>
-        
-        <h2>Subsystem Modeling</h2>
-        <p>The subsystem optimizes across four design variables: target species, crew payment structure, operational hours, and equipment investment. Different target species require different equipment, licenses, work hours, and commute times.</p>
-        
-        <!-- [Include all fishing strategy content] -->
+        <h2 class="c44" id="h.6nblu1etn6k0"><span class="c21 c33">Subsystem Description:</span></h2>
+        <p class="c14"><span class="c6">The Fishing Strategy Subsystem models the profitability of fishing for 3 different species. This subsystem selects which fishing strategies to complete on which days of the year based on the seasons and regulations. It additionally explores the potential increases in productivity that could occur as a result of the crew receiving a bottom-line cut of the boat&rsquo;s profits. This subsystem allows us to decide how much to pay the fishermen, how large of a bonus they should receive, what is fished on what day, and most importantly the annual revenue of the boat. </span></p><p class="c8"><span class="c6"></span></p><h2 class="c44" id="h.ctjf1aynzvn1"><span>Subsystem Modeling:</span></h2><p class="c14"><span class="c20">The design variables include revenue stream toggles, crew bonus, and sales strategy (wholesale vs. direct).</span><span class="c6">&nbsp;The objective function computes total revenue minus all daily expenses, including the cost of fuel, labor, and bonuses dependent on the fishing strategy. Although constraints weren&rsquo;t explicitly added, the use of the log function results in a realistic representation of a plateau in profitability in spite of an increase in wages. This prevented the model from selecting the highest bonus leading to very realistic outputs for both the revenue and crew bonuses. </span></p><p class="c8"><span class="c6"></span></p><h2 class="c44" id="h.9t44kk103r8c"><span class="c21 c33">Subsystem Optimization:</span></h2><p class="c14"><span class="c20">We used MATLAB&#39;s </span><span class="c46">fmincon</span><span class="c20">&nbsp;</span><span class="c20">function to implement a quasi-newton optimization method to determine the productivity of the crew. Using the log functions to simulate the productivity plateau and upper and lower bounds to the crew bonus we ended up with a very realistic outcome. The best solution achieved a net profit of over $7M and involved the crew getting a 10% bonus for each fishing strategy. </span><span class="c20">The optimal fishing strategy had the boat fish for lobster 10.31% of the time, scallops 8.91% of the time, and cod 10.48% of the time. </span></p><p class="c8"><span class="c6"></span></p><h2 class="c44" id="h.lz7nmu7tiii"><span class="c21 c33">Subsystem Analysis of Solution:</span></h2><p class="c14"><span class="c20">The optimized solution effectively balanced wages and productivity. The newton-method chose a crew bonus that was justified given the increase in productivity. It also prioritized lobster fishing when overlapping fishing seasons occurred, showing that the yield and market price was enough to counteract the cost of higher wages, more working hours and higher fuel costs. The results demonstrate that lobster fishing is the most profitable of the 3 options, but a combination of the 3 is superior to one single strategy. MATLAB was used for all modeling and optimization.</span></p><h2 class="c45 c23 c62" id="h.w2szcdracbb5"><span class="c21 c33"></span></h2><h2 class="c45 c23" id="h.4d3qbpsg7twp"><span class="c21 c33">Summary of Optimization Problem</span></h2><h4 class="c31" id="h.gm78z7wlfxrd"><span class="c18">Objective function:</span></h4><table class="c9"><tr class="c5"><td class="c15" colspan="1" rowspan="1"><p class="c4"><span class="c20 c36">max</span></p></td><td class="c37" colspan="1" rowspan="1"><p class="c4"><img src="images/image63.png"></p></td></tr></table><p class="c8"><span class="c21 c35"></span></p><h4 class="c31" id="h.fpiemhidhj3c"><span class="c18">Objective Function Components: </span></h4><p class="c42 c23"><img src="images/image64.png"></p><p class="c42 c23"><img src="images/image65.png"></p><p class="c8"><span class="c21 c35"></span></p><h4 class="c31" id="h.770bs0qdme02"><span class="c18">Component Explanation: </span></h4><table class="c9"><tr class="c27"><td class="c30" colspan="1" rowspan="1"><p class="c4 c23"><img src="images/image66.png"></p></td><td class="c16" colspan="1" rowspan="1"><p class="c4 c23"><span class="c6">Yield rate for each species:</span></p><p class="c4 c23"><img src="images/image67.png"></p></td></tr><tr class="c5"><td class="c30" colspan="1" rowspan="1"><p class="c4"><img src="images/image68.png"></p></td><td class="c16" colspan="1" rowspan="1"><p class="c4"><span class="c20 c36">Productivity coefficient that determines the yield for each species: </p><p class="c4 c23"><img src="images/image69.png"></p></td></tr></table><p class="c8"><span class="c21 c35"></span></p><p class="c8"><span class="c21 c35"></span></p><h4 class="c51" id="h.rqqe7bvuvyll"><span class="c18">Variable Table</span></h4><table class="c9"><tr class="c5"><td class="c39" colspan="1" rowspan="1"><p class="c4"><span class="c12">Variable</span></p></td><td class="c11" colspan="1" rowspan="1"><p class="c4"><span class="c12">Description</span></p></td><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c12">Lower Bound</span></p></td><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c12">Upper Bound</span></p></td><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c12">Type</span></p></td></tr><tr class="c5"><td class="c39" colspan="1" rowspan="1"><p class="c4"><img src="images/image22.png"></p></td><td class="c11" colspan="1" rowspan="1"><p class="c4"><span class="c12">Lobster fishing (on/off)</span></p></td><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c12">0</span></p></td><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c12">1</span></p></td><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c12">Binary</span></p></td></tr><tr class="c5"><td class="c39" colspan="1" rowspan="1"><p class="c4"><img src="images/image23.png"></p></td><td class="c11" colspan="1" rowspan="1"><p class="c4"><span class="c12">Scallop fishing (on/off)</span></p></td><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c12">0</span></p></td><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c12">1</span></p></td><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c12">Binary</span></p></td></tr><tr class="c5"><td class="c39" colspan="1" rowspan="1"><p class="c4"><img src="images/image24.png"></p></td><td class="c11" colspan="1" rowspan="1"><p class="c4"><span class="c12">Cod fishing (on/off)</span></p></td><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c12">0</span></p></td><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c12">1</span></p></td><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c12">Binary</span></p></td></tr><tr class="c5"><td class="c39" colspan="1" rowspan="1"><p class="c4"><img src="images/image25.png"></p></td><td class="c11" colspan="1" rowspan="1"><p class="c4"><span class="c12">Crew Bonus</span></p></td><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c12">5%</span></p></td><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c12">20%</span></p></td><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c12">Continuous</span></p></td></tr><tr class="c5"><td class="c39" colspan="1" rowspan="1"><p class="c4"><img src="images/image26.png"></p></td><td class="c11" colspan="1" rowspan="1"><p class="c4"><span class="c12">Sales strategy: 0 = Wholesale, 1 = DTC</span></p></td><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c12">0</span></p></td><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c12">1</span></p></td><td class="c0" colspan="1" rowspan="1"><p class="c4"><span class="c12">Binary</span></p></td></tr></table><p class="c19"><span class="c6"></span></p>
     </div>
 
     <div class="nav-container">
